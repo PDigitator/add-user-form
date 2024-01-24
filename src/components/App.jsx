@@ -1,6 +1,6 @@
 // import logo from "./logo.svg";
 // import "./App.css";
-import UserForm from "./components/UserForm/UserForm";
+import UserForm from "./UserForm/UserForm";
 
 const App = () => {
   return (

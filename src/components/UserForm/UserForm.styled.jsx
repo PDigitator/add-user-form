@@ -9,7 +9,7 @@ export const StyledUserForm = styled.div`
   padding: 20px;
   border: 1px solid #768696;
   border-radius: 8px;
-  /* background: rgb(243, 246, 249); */
+  background: rgb(243, 246, 249);
 `;
 
 export const StyledTextField = styled(TextField)`
