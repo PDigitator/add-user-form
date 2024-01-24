@@ -1,41 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 import { api } from "./operations";
-
-const initialState = { items: [], isLoading: false, error: null };
-
-const handlePending = (state) => {
-  state.isLoading = true;
-};
-
-const handleGetUsersFulfilled = (state, action) => {
-  state.isLoading = false;
-  state.items = action.payload;
-  state.error = null;
-};
-
-const handleRejected = (state, action) => {
-  state.isLoading = false;
-  state.error = action.payload;
-};
-
-const handleCreateUserFulfilled = (state, action) => {
-  state.isLoading = false;
-  state.error = null;
-  state.items.push(action.payload);
-};
 
 const usersSlice = createSlice({
   name: "users",
-  initialState,
-  extraReducers: (builder) =>
+  initialState: { items: [], isLoading: false, error: null },
+  reducers: {},
+  extraReducers: (builder) => {
     builder
-      .addCase(api.endpoints.getUsers.pending, handlePending)
-      .addCase(api.endpoints.getUsers.fulfilled, handleGetUsersFulfilled)
-      .addCase(api.endpoints.getUsers.rejected, handleRejected)
-      .addCase(api.endpoints.createUser.pending, handlePending)
-      .addCase(api.endpoints.createUser.fulfilled, handleCreateUserFulfilled)
-      .addCase(api.endpoints.createUser.rejected, handleRejected),
+      .addMatcher(api.endpoints.getUsers.matchPending, (state) => {
+        state.isLoading = true;
+      })
+      .addMatcher(api.endpoints.getUsers.matchFulfilled, (state, action) => {
+        state.isLoading = false;
+        state.items = action.payload;
+        state.error = null;
+      })
+      .addMatcher(api.endpoints.getUsers.matchRejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addMatcher(api.endpoints.createUser.matchPending, (state) => {
+        state.isLoading = true;
+      })
+      .addMatcher(api.endpoints.createUser.matchFulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.items.push(action.payload);
+      })
+      .addMatcher(api.endpoints.createUser.matchRejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const usersReducer = usersSlice.reducer;

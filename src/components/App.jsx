@@ -1,27 +1,26 @@
-// import logo from "./logo.svg";
-// import "./App.css";
+import { useSelector } from "react-redux";
+import { selectUsers, selectError, selectIsLoading } from "../redux/selectors";
+
 import UserForm from "./UserForm/UserForm";
+import UsersList from "./UsersList/UsersList";
+import { Notification } from "./App.styled";
 
 const App = () => {
-  return (
-    <UserForm />
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
+  const users = useSelector(selectUsers);
+
+  return (
+    <>
+      <UserForm />
+      {isLoading && !error && <p>Loading...</p>}
+      {users.length ? (
+        <UsersList />
+      ) : (
+        <Notification>There are no users</Notification>
+      )}
+    </>
   );
 };
 

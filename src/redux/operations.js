@@ -1,12 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.BASE_URL }),
-  endpoints: (build) => ({
-    getUsers: build.query({
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://65afde1a2f26c3f2139beffe.mockapi.io",
+  }),
+  endpoints: (builder) => ({
+    getUsers: builder.query({
       query: () => "/users",
     }),
-    createUser: build.mutation({
+    createUser: builder.mutation({
       query: (newUser) => ({
         url: "/users",
         method: "POST",
@@ -15,3 +17,5 @@ export const api = createApi({
     }),
   }),
 });
+
+export const { useGetUsersQuery, useCreateUserMutation } = api;
